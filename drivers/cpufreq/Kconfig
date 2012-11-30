@@ -98,7 +98,26 @@ config CPU_FREQ_DEFAULT_GOV_ONDEMAND
 	  Be aware that not all cpufreq drivers support the ondemand
 	  governor. If unsure have a look at the help section of the
 	  driver. Fallback governor will be the performance governor.
-
+	  
+config CPU_FREQ_DEFAULT_GOV_ONDEMANDX
+	bool "ondemandX"
+	select CPU_FREQ_GOV_ONDEMANDX
+	select CPU_FREQ_GOV_ONDEMAND
+	help
+	  Use the CPUFreq governor 'ondemandX' as default. This allows
+	  you to get a full dynamic frequency capable system by simply
+	  loading your cpufreq low-level hardware driver.
+	  Be aware that not all cpufreq drivers support the ondemandX
+	  governor. If unsure have a look at the help section of the
+	  driver. Fallback governor will be the performance governor.
+	  
+config CPU_FREQ_DEFAULT_GOV_INTELLIDEMAND
+	bool "intellidemand"
+	select CPU_FREQ_GOV_INTELLIDEMAND
+	select CPU_FREQ_GOV_ONDEMAND
+	help
+	  Use the CPUFreq governor 'intellidemand' as default.
+	  
 config CPU_FREQ_DEFAULT_GOV_CONSERVATIVE
 	bool "conservative"
 	select CPU_FREQ_GOV_CONSERVATIVE
@@ -119,6 +138,41 @@ config CPU_FREQ_DEFAULT_GOV_INTERACTIVE
 	  you to get a full dynamic cpu frequency capable system by simply
 	  loading your cpufreq low-level hardware driver, using the
 	  'interactive' governor for latency-sensitive workloads.
+
+config CPU_FREQ_DEFAULT_GOV_INTERACTIVEX
+	bool "interactiveX"
+	select CPU_FREQ_GOV_INTERACTIVEX
+	help
+	  Use the CPUFreq governor 'interactiveX' as default. This allows
+	  you to get a full dynamic cpu frequency capable system by simply
+	  loading your cpufreq low-level hardware driver, using the
+	  'interactiveX' governor for latency-sensitive workloads.
+
+config CPU_FREQ_DEFAULT_GOV_SMARTASS2
+	bool "smartass2"
+	select CPU_FREQ_GOV_SMARTASS2
+	help
+	 Use the CPUFreq governor 'smartassV2' as default.
+
+config CPU_FREQ_DEFAULT_GOV_SMOOTHASS
+ 	bool "smoothass"
+ 	select CPU_FREQ_GOV_SMOOTHASS
+ 	select CPU_FREQ_GOV_PERFORMANCE
+ 	help
+ 	  Use the CPUFreq governor 'smoothass' as default.
+ 	  
+config CPU_FREQ_DEFAULT_GOV_BRAZILIANWAX
+	bool "brazilianwax"
+	select CPU_FREQ_GOV_BRAZILIANWAX
+	select CPU_FREQ_GOV_PERFORMANCE
+	help
+	  Use the CPUFreq governor 'brazilianwax as default.
+	  
+config CPU_FREQ_DEFAULT_GOV_SAVAGEDZEN
+	bool "SavagedZen"
+	select CPU_FREQ_GOV_SAVAGEDZEN
+	help
+	  Use the CPUFreq governor 'savagedzen' as default.	  
 
 endchoice
 
@@ -176,6 +230,33 @@ config CPU_FREQ_GOV_ONDEMAND
 	  For details, take a look at linux/Documentation/cpu-freq.
 
 	  If in doubt, say N.
+	  
+config CPU_FREQ_GOV_ONDEMANDX
+	tristate "'ondemandX' cpufreq policy governor"
+	select CPU_FREQ_TABLE
+	help
+	  'ondemandX' - This driver adds a dynamic cpufreq policy governor.
+	  The governor does a periodic polling and 
+	  changes frequency based on the CPU utilization.
+	  The support for this governor depends on CPU capability to
+	  do fast frequency switching (i.e, very low latency frequency
+	  transitions). 
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called cpufreq_ondemandX.
+
+	  For details, take a look at linux/Documentation/cpu-freq.
+
+	  If in doubt, say N.
+	  
+config CPU_FREQ_GOV_INTELLIDEMAND
+	tristate "'intellidemand' cpufreq policy governor"
+	select CPU_FREQ_TABLE
+	help
+	  To compile this driver as a module, choose M here: the
+	  module will be called shardul_intellidemand.
+
+	  If in doubt, say N.
 
 config CPU_FREQ_GOV_INTERACTIVE
 	tristate "'interactive' cpufreq policy governor"
@@ -205,5 +286,47 @@ config CPU_FREQ_GOV_CONSERVATIVE
 	  For details, take a look at linux/Documentation/cpu-freq.
 
 	  If in doubt, say N.
+
+config CPU_FREQ_GOV_INTERACTIVEX
+	tristate "'interactiveX' cpufreq policy governor"
+	help
+	  'interactiveX' - Modified version of interactive with sleep+wake code.
+
+config CPU_FREQ_GOV_SMARTASS2
+	tristate "'smartassV2' cpufreq governor"
+	depends on CPU_FREQ
+	help
+	  'smartassV2' - a "smart" optimized governor for the hero!
+
+	  If in doubt, say N.
+
+config CPU_FREQ_GOV_SMOOTHASS
+	tristate "'smoothass' cpufreq governor"
+	depends on CPU_FREQ
+	help
+	smoothass' - a "slightly more agressive smartass" governor!
+ 	
+	If in doubt, say N.
+	
+config CPU_FREQ_GOV_BRAZILIANWAX
+	tristate "'brazilianwax' cpufreq governor"
+	depends on CPU_FREQ
+	help
+	  'brazilianwax' - a "slightly more agressive smart" optimized governor!
+	  
+config CPU_FREQ_GOV_SAVAGEDZEN
+	tristate "'savagedzen' cpufreq governor"
+	depends on CPU_FREQ
+	help
+	   'Savaged-Zen' - a "smartass" based governor
+	   If in doubt, say N.
+	  
+config CPU_FREQ_VDD_LEVELS
+	bool "CPU Vdd levels sysfs interface"
+	depends on CPU_FREQ_STAT
+	depends on ARCH_MSM7X30
+	default n
+	help
+	CPU Vdd levels sysfs interface
 
 endif	# CPU_FREQ
